@@ -332,7 +332,7 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
     private void createRebootMenuItems () {
         mItems = new ArrayList<Action>();
 
-        // first: power off
+        // new menu: reboot options
         mItems.add(
             new SinglePressAction(
                     com.android.internal.R.drawable.ic_lock_reboot,
@@ -352,40 +352,40 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
             });
 
         mItems.add(
-                new SinglePressAction(
-                        com.android.internal.R.drawable.ic_lock_reboot_bootloader,
-                        R.string.eos_globalactions_reboot_bootloader) {
+            new SinglePressAction(
+                    com.android.internal.R.drawable.ic_lock_reboot_recovery,
+                    R.string.eos_globalactions_reboot_recovery) {
 
-                    public void onPress() {
-                        mWindowManagerFuncs.reboot("bootloader", false);
-                    }
+                public void onPress() {
+                    mWindowManagerFuncs.reboot("recovery", false);
+                }
 
-                    public boolean showDuringKeyguard() {
-                        return true;
-                    }
+                public boolean showDuringKeyguard() {
+                    return true;
+                }
 
-                    public boolean showBeforeProvisioning() {
-                        return true;
-                    }
-                });
+                public boolean showBeforeProvisioning() {
+                    return true;
+                }
+            });
 
         mItems.add(
-                new SinglePressAction(
-                        com.android.internal.R.drawable.ic_lock_reboot_recovery,
-                        R.string.eos_globalactions_reboot_recovery) {
+            new SinglePressAction(
+                    com.android.internal.R.drawable.ic_lock_reboot_bootloader,
+                    R.string.eos_globalactions_reboot_bootloader) {
 
-                    public void onPress() {
-                        mWindowManagerFuncs.reboot("recovery", false);
-                    }
+                public void onPress() {
+                    mWindowManagerFuncs.reboot("bootloader", false);
+                }
 
-                    public boolean showDuringKeyguard() {
-                        return true;
-                    }
+                public boolean showDuringKeyguard() {
+                    return true;
+                }
 
-                    public boolean showBeforeProvisioning() {
-                        return true;
-                    }
-                });
+                public boolean showBeforeProvisioning() {
+                    return true;
+                }
+            });
     }
 
     private void prepareDialog() {
