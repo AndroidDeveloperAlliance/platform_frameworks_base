@@ -279,6 +279,7 @@
   <java-symbol type="integer" name="config_wifi_driver_stop_delay" />
   <java-symbol type="integer" name="config_soundEffectVolumeDb" />
   <java-symbol type="integer" name="config_lockSoundVolumeDb" />
+  <java-symbol type="integer" name="config_backKillTimeout" />
 
   <java-symbol type="color" name="tab_indicator_text_v4" />
 
@@ -887,6 +888,7 @@
   <java-symbol type="string" name="eos_globalactions_reboot_recovery" />
   <java-symbol type="string" name="eos_globalactions_reboot_safemode" />
   <java-symbol type="string" name="reboot_title" />
+  <java-symbol type="string" name="app_killed_message" />
 
   <java-symbol type="plurals" name="abbrev_in_num_days" />
   <java-symbol type="plurals" name="abbrev_in_num_hours" />
