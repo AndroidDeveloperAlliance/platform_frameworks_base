@@ -559,10 +559,12 @@ public class PhoneStatusBar extends BaseStatusBar {
         super.updateRecentsPanel(R.layout.status_bar_recent_panel);
         // Make .03 alpha the minimum so you always see the item a bit-- slightly below
         // .03, the item disappears entirely (as if alpha = 0) and that discontinuity looks
-        // a bit jarring
-        mRecentsPanel.setMinSwipeAlpha(0.03f);
+        // a bit jarring 	
+        mRecentsPanel.setMinSwipeAlpha(0.03f);        
         if (mNavigationBarView != null) {
-            mNavigationBarView.getRecentsButton().setOnTouchListener(mRecentsPanel);
+        	View recents = mNavigationBarView.getRecentsButton();
+        	if (recents != null)
+        		recents.setOnTouchListener(mRecentsPanel);
         }
     }
 
@@ -578,21 +580,29 @@ public class PhoneStatusBar extends BaseStatusBar {
     }
 
     @Override
-    public void showSearchPanel() {
-        super.showSearchPanel();
-        WindowManager.LayoutParams lp =
-            (android.view.WindowManager.LayoutParams) mNavigationBarView.getLayoutParams();
-        lp.flags &= ~WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-        WindowManagerImpl.getDefault().updateViewLayout(mNavigationBarView, lp);
+    public boolean showSearchPanel() {
+        if (super.showSearchPanel())
+        {
+            WindowManager.LayoutParams lp =
+                (android.view.WindowManager.LayoutParams) mNavigationBarView.getLayoutParams();
+            lp.flags &= ~WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+            WindowManagerImpl.getDefault().updateViewLayout(mNavigationBarView, lp);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void hideSearchPanel() {
-        super.hideSearchPanel();
-        WindowManager.LayoutParams lp =
-            (android.view.WindowManager.LayoutParams) mNavigationBarView.getLayoutParams();
-        lp.flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-        WindowManagerImpl.getDefault().updateViewLayout(mNavigationBarView, lp);
+    public boolean hideSearchPanel() {
+        if (super.hideSearchPanel())
+        {
+            WindowManager.LayoutParams lp =
+                (android.view.WindowManager.LayoutParams) mNavigationBarView.getLayoutParams();
+            lp.flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+            WindowManagerImpl.getDefault().updateViewLayout(mNavigationBarView, lp);
+            return true;               
+        }
+        return false;
     }
 
     protected int getStatusBarGravity() {
@@ -614,13 +624,14 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     private View.OnClickListener mRecentsClickListener = new View.OnClickListener() {
         public void onClick(View v) {
-            toggleRecentApps();
+        	if (v == mNavigationBarView.getRecentsButton())
+	            toggleRecentApps();
         }
     };
 
     private int mShowSearchHoldoff = 0;
     private Runnable mShowSearchPanel = new Runnable() {
-        public void run() {
+        public void run() { 
             showSearchPanel();
         }
     };
@@ -630,14 +641,17 @@ public class PhoneStatusBar extends BaseStatusBar {
             switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (!shouldDisableNavbarGestures() && !inKeyguardRestrictedInputMode()) {
+                    mRecentsPanel.DIE_IN_A_FIRE(true);
                     mHandler.removeCallbacks(mShowSearchPanel);
                     mHandler.postDelayed(mShowSearchPanel, mShowSearchHoldoff);
+                    mHandler.postDelayed(mShowSearchPanel, mShowSearchHoldoff); //second time for good measure....... O.o
                 }
             break;
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 mHandler.removeCallbacks(mShowSearchPanel);
+                mRecentsPanel.DIE_IN_A_FIRE(false);
             break;
         }
         return false;
@@ -646,10 +660,7 @@ public class PhoneStatusBar extends BaseStatusBar {
 
     private void prepareNavigationBarView() {
         mNavigationBarView.reorient();
-
-        mNavigationBarView.getRecentsButton().setOnClickListener(mRecentsClickListener);
-        mNavigationBarView.getRecentsButton().setOnTouchListener(mRecentsPanel);
-        mNavigationBarView.getHomeButton().setOnTouchListener(mHomeSearchActionListener);
+        mNavigationBarView.putThisInYourPipeAndSmokeIt(mRecentsClickListener, mRecentsPanel, mHomeSearchActionListener);
         updateSearchPanel();
     }
 
