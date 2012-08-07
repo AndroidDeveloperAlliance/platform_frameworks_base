@@ -256,7 +256,7 @@ public class Clock extends TextView {
                 } else {
                     if (mWeekday == WEEKDAY_STYLE_SMALL) {
                         CharacterStyle style = new RelativeSizeSpan(0.7f);
-                        formatted.setSpan(style, 0, 4, Spannable.SPAN_EXECLUSIVE_INCLUSIVE);
+                        formatted.setSpan(style, 0, 3, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
                     }
                 }
             }
@@ -268,25 +268,25 @@ public class Clock extends TextView {
         String todayIs = null;
         switch (today) {
             case 1:
-                todayIs = "Sun";
+                todayIs = "Sun ";
                 break;
             case 2:
-                todayIs = "Mon";
+                todayIs = "Mon ";
                 break;
             case 3:
-                todayIs = "Tue";
+                todayIs = "Tue ";
                 break;
             case 4:
-                todayIs = "Wed";
+                todayIs = "Wed ";
                 break;
             case 5:
-                todayIs = "Thu";
+                todayIs = "Thu ";
                 break;
             case 6:
-                todayIs = "Fri";
+                todayIs = "Fri ";
                 break;
             case 7:
-                todayIs = "Sat";
+                todayIs = "Sat ";
                 break;
         }
         return todayIs;
