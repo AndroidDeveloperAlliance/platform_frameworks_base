@@ -224,7 +224,7 @@ public class Clock extends TextView {
 
         String result = sdf.format(mCalendar.getTime());
 
-        if (mWeekday != WEEKDAY_STYLE_DONE) {
+        if (mWeekday != WEEKDAY_STYLE_GONE) {
             todayIs = whatDay(day);
             result = todayIs + result;
         }
