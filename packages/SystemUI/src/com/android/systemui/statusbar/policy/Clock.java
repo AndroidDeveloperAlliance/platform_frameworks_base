@@ -216,9 +216,21 @@ public class Clock extends TextView {
         } else {
             sdf = mClockFormat;
         }
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        String todayIs = null;
+
         String result = sdf.format(mCalendar.getTime());
 
+        if (mWeekday != WEEKDAY_STYLE_DONE) {
+            todayIs = whatDay(day);
+            result = todayIs + result;
+        }
+        
         SpannableStringBuilder formatted = new SpannableStringBuilder(result);
+        
         if (mAmPmStyle != AM_PM_STYLE_NORMAL) {
             int magic1 = result.indexOf(MAGIC1);
             int magic2 = result.indexOf(MAGIC2);
@@ -236,25 +248,48 @@ public class Clock extends TextView {
                 }
             }
         }
+
         if (mWeekday != WEEKDAY_STYLE_NORMAL) {
-            // always in front of am/pm
-            int magic3 = result.indexOf(MAGIC3);
-            int magic4 = result.indexOf(MAGIC4);
-            if (magic3 >= 0 && magic4 > magic3) {
+            if (todayIs != null) {
                 if (mWeekday == WEEKDAY_STYLE_GONE) {
-                    formatted.delete(magic3, magic4 + 1);
+                    formatted.delete(0,4);
                 } else {
                     if (mWeekday == WEEKDAY_STYLE_SMALL) {
                         CharacterStyle style = new RelativeSizeSpan(0.7f);
-                        formatted.setSpan(style, magic3, magic4,
-                                Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                        formatted.setSpan(style, 0, 4, Spannable.SPAN_EXECLUSIVE_INCLUSIVE);
                     }
-                    formatted.delete(magic4, magic4 + 1);
-                    formatted.delete(magic3, magic3 + 1);
                 }
             }
         }
         return formatted;
+    }
+
+    private String whatDay(int today) {
+        String todayIs = null;
+        switch (today) {
+            case 1:
+                todayIs = "Sun";
+                break;
+            case 2:
+                todayIs = "Mon";
+                break;
+            case 3:
+                todayIs = "Tue";
+                break;
+            case 4:
+                todayIs = "Wed";
+                break;
+            case 5:
+                todayIs = "Thu";
+                break;
+            case 6:
+                todayIs = "Fri";
+                break;
+            case 7:
+                todayIs = "Sat";
+                break;
+        }
+        return todayIs;
     }
 
     public void updateVisibilityFromStatusBar(boolean show) {
