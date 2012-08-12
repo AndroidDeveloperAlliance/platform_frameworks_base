@@ -895,6 +895,4 @@
 
     <!-- If true, adds support for no delay A2DP in Samsung devices -->
     <bool name="config_noDelayInATwoDP">false</bool>
-
->>>>>>> 11b90f5... Audioservice: fix A2dp support on Samsung's Audio Policy HAL.
 </resources>
