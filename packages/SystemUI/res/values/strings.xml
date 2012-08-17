@@ -363,6 +363,7 @@
     <!-- Content description of the clear button in the notification panel for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_clear_all">Clear all notifications.</string>
 
+
     <!-- Description of the desk dock action that invokes the Android Dreams screen saver feature -->
     <string name="dreams_dock_launcher">Activate screen saver</string>
 
@@ -397,4 +398,11 @@
     <string name="navbar_menu_conditional_button">Menu (Auto-Hide) button</string>
     <string name="navbar_menu_always_button">Menu (Always Show) button</string>
     <string name="navbar_menu_big_button">Menu button</string>
+
+    <!-- Text to display next to the minimal graphical battery meter.  [CHAR LIMIT=3] -->
+    <string name="status_bar_settings_battery_meter_min_format" translatable="false">
+        <xliff:g id="number">%d</xliff:g>
+    </string>
+
+    <string name="powerwidget_screen_timeout_toast">Screen timeout set to: %1$d %2$s</string>
 </resources>
