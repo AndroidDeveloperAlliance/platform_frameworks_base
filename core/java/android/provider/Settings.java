@@ -2553,7 +2553,6 @@ public final class Settings {
         * @hide
         */
         public static final String EXPANDED_FLASH_MODE = "expanded_flash_mode";
-
     }
 
     /**
@@ -4565,6 +4564,12 @@ public final class Settings {
          * @hide
          */
         public static final String SMS_SHORT_CODES_PREFIX = "sms_short_codes_";
+
+        /**
+         * Whether the Wimax should be on.  Only the WiMAX service should touch this.
+         * @hide
+         */
+        public static final String WIMAX_ON = "wimax_on";
 
         /**
          * This are the settings to be backed up.
