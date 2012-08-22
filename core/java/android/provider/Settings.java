@@ -1910,6 +1910,18 @@ public final class Settings {
         public static final String LOCKSCREEN_DISABLED = "lockscreen.disabled";
 
         /**
+         * Whether the lockscreen vibrate should be enabled.
+         * @hide
+         */
+        public static final String LOCKSCREEN_VIBRATE_ENABLED = "lockscreen.vibrate_enabled";
+
+        /**
+         * Stores values for custom lockscreen targets
+         * @hide
+         */
+        public static final String LOCKSCREEN_TARGETS = "lockscreen_targets";
+
+        /**
          * URI for the low battery sound file.
          * @hide
          */
@@ -2047,6 +2059,12 @@ public final class Settings {
         public static final String NAV_BUTTONS = "nav_buttons";
 
         /*
+        /**
+         * Whether to unlock the menu key.  The value is boolean (1 or 0).
+         * @hide
+         */
+        public static final String MENU_UNLOCK_SCREEN = "menu_unlock_screen";
+        /*
          * Whether to enable quiet hours.
          * @hide
          */
@@ -2087,6 +2105,101 @@ public final class Settings {
          * @hide
          */
         public static final String QUIET_HOURS_DIM = "quiet_hours_dim";
+        /**
+         * Sets the lockscreen background style
+         * @hide
+         */
+        public static final String LOCKSCREEN_BACKGROUND = "lockscreen_background";
+
+        /**
+         * Show the weather on the lock screen
+         * @hide
+         */
+        public static final String LOCKSCREEN_WEATHER = "lockscreen_weather";
+
+        /**
+         * Show the current weather location on the lock screen
+         * @hide
+         */
+        public static final String WEATHER_SHOW_LOCATION = "weather_show_location";
+
+        /**
+         * Show the current weather location on the lock screen
+         * @hide
+         */
+        public static final String WEATHER_SHOW_TIMESTAMP = "weather_show_timestamp";
+
+        /**
+         * Use the custom/manually configured weather location
+         * @hide
+         */
+        public static final String WEATHER_USE_CUSTOM_LOCATION = "weather_use_custom_location";
+
+        /**
+         * Stores the custom/manually configured weather location
+         * @hide
+         */
+        public static final String WEATHER_CUSTOM_LOCATION = "weather_custom_location";
+
+        /**
+         * Stores the weather update frequency
+         * @hide
+         */
+        public static final String WEATHER_UPDATE_INTERVAL = "weather_update_interval";
+
+        /**
+         * Use Metric measurements (celcius, km/h) for weather data
+         * @hide
+         */
+        public static final String WEATHER_USE_METRIC = "weather_use_metric";
+
+        /**
+         * Invert low/high temperature display
+         * @hide
+         */
+        public static final String WEATHER_INVERT_LOWHIGH = "weather_invert_lowhigh";
+
+        /**
+         * Whether to show the next calendar event
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR = "lockscreen_calendar";
+
+        /**
+         * Whether to show the next calendar event's location
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR_SHOW_LOCATION = "lockscreen_calendar_show_location";
+
+        /**
+         * Whether to show the next calendar event's description
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR_SHOW_DESCRIPTION = "lockscreen_calendar_show_description";
+
+        /**
+         * Which calendars to look for events
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDARS = "lockscreen_calendars";
+
+        /**
+         * How far in the future to look for events
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR_LOOKAHEAD = "lockscreen_calendar_lookahead";
+
+        /**
+         * Whether to find only events with reminders
+         * @hide
+         */
+        public static final String LOCKSCREEN_CALENDAR_REMINDERS_ONLY = "lockscreen_calendar_reminders_only";
+
+        /**
+         * Always show the battery status on the lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_ALWAYS_SHOW_BATTERY = "lockscreen_always_show_battery";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
