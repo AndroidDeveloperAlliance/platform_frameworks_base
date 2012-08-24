@@ -3692,6 +3692,10 @@
   <java-symbol type="array" name="avrcp_special_extra_keys" />
   <java-symbol type="array" name="avrcp_overridable_extra_keys" />
   <java-symbol type="string" name="com.amazon.mp3.metachanged_track" />
+  
+    <!-- Notification and battery light -->
+  <java-symbol type="array" name="notification_light_package_mapping" />
+  
   <java-symbol type="string" name="com.amazon.mp3.metachanged_artist" />
   <java-symbol type="string" name="com.amazon.mp3.metachanged_album" />
   <java-symbol type="string" name="com.amazon.mp3.metachanged_id" />
