@@ -1171,27 +1171,37 @@ public class GlowPadView extends View {
     }
 
     private String getTargetDescription(int index) {
+        String result = null;
         if (mTargetDescriptions == null || mTargetDescriptions.isEmpty()) {
             mTargetDescriptions = loadDescriptions(mTargetDescriptionsResourceId);
             if (mTargetDrawables.size() != mTargetDescriptions.size()) {
                 Log.w(TAG, "The number of target drawables must be"
                         + " equal to the number of target descriptions.");
-                return null;
             }
         }
-        return mTargetDescriptions.get(index);
+
+        if (index < (mTargetDescriptions.size() - 1)) {
+            result = mTargetDescriptions.get(index);
+        }
+
+        return result;
     }
 
     private String getDirectionDescription(int index) {
+        String result = null;
         if (mDirectionDescriptions == null || mDirectionDescriptions.isEmpty()) {
             mDirectionDescriptions = loadDescriptions(mDirectionDescriptionsResourceId);
             if (mTargetDrawables.size() != mDirectionDescriptions.size()) {
                 Log.w(TAG, "The number of target drawables must be"
                         + " equal to the number of direction descriptions.");
-                return null;
             }
         }
-        return mDirectionDescriptions.get(index);
+
+        if (index < (mTargetDescriptions.size() -1)) {
+            result = mDirectionDescriptions.get(index);
+        }
+
+        return result;
     }
 
     private ArrayList<String> loadDescriptions(int resourceId) {
