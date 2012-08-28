@@ -15,9 +15,13 @@
  * limitations under the License.
 -->
 
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
 <com.android.systemui.statusbar.tablet.SettingsView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:systemui="http://schemas.android.com/apk/res/com.android.systemui"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -92,6 +96,9 @@
     <View
             android:id="@+id/rotate_separator"
             style="@style/StatusBarPanelSettingsPanelSeparator" />
+    <!-- Power widget buttons will be added here -->
+
+    <View style="@style/StatusBarPanelSettingsPanelSeparator" />
 
     <!-- Brightness -->
     <LinearLayout style="@style/StatusBarPanelSettingsRow" >
