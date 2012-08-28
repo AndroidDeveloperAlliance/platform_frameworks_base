@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2010 The Android Open Source Project
+ * This code has been modified. Portions copyright (C) 2012 ParanoidAndroid Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,13 +18,16 @@
 package com.android.systemui.statusbar.tablet;
 
 import android.app.StatusBarManager;
+import android.database.ContentObserver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Slog;
-import android.widget.LinearLayout;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,10 +37,17 @@ import android.view.LayoutInflater;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.policy.AirplaneModeController;
 import com.android.systemui.statusbar.policy.AutoRotateController;
+import com.android.systemui.statusbar.policy.BluetoothController;
 import com.android.systemui.statusbar.policy.BrightnessController;
 import com.android.systemui.statusbar.policy.DoNotDisturbController;
 import com.android.systemui.statusbar.policy.ToggleSlider;
 import com.android.systemui.statusbar.policy.VolumeController;
+import com.android.systemui.statusbar.policy.WifiController;
+import com.android.systemui.statusbar.policy.LocationController;
+import com.android.systemui.statusbar.policy.FlashlightController;
+import com.android.systemui.statusbar.policy.MobileDataController;
+import com.android.systemui.statusbar.policy.NetworkModeController;
+import com.android.systemui.statusbar.policy.SoundController;
 
 public class SettingsView extends LinearLayout implements View.OnClickListener {
     static final String TAG = "SettingsView";
@@ -62,8 +73,15 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
 
     AirplaneModeController mAirplane;
     AutoRotateController mRotate;
+    BluetoothController mBluetooth;
     BrightnessController mBrightness;
     DoNotDisturbController mDoNotDisturb;
+    FlashlightController mFlashLight;
+    LocationController mGps;
+    MobileDataController mMobileData;
+    NetworkModeController mNetworkMode;
+    SoundController mSound;
+    WifiController mWifi;
     View mRotationLockContainer;
 
     private Context mContext;
@@ -106,6 +124,10 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
 
     public SettingsView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        mContext = getContext();
+        mHandler = new Handler();
+        SettingsObserver settingsObserver = new SettingsObserver(mHandler);
+        settingsObserver.observe();
     }
 
     @Override
@@ -114,28 +136,10 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
 
         final Context context = getContext();
 
-        mAirplane = new AirplaneModeController(context,
-                (CompoundButton)findViewById(R.id.airplane_checkbox));
-        findViewById(R.id.network).setOnClickListener(this);
-
-        mRotationLockContainer = findViewById(R.id.rotate);
-        mRotationLockSeparator = findViewById(R.id.rotate_separator);
-        mRotate = new AutoRotateController(context,
-                (CompoundButton)findViewById(R.id.rotate_checkbox),
-                new AutoRotateController.RotationLockCallbacks() {
-                    @Override
-                    public void setRotationLockControlVisibility(boolean show) {
-                        mRotationLockContainer.setVisibility(show ? View.VISIBLE : View.GONE);
-                        mRotationLockSeparator.setVisibility(show ? View.VISIBLE : View.GONE);
-                    }
-                });
-
         mBrightness = new BrightnessController(context,
                 (ToggleSlider)findViewById(R.id.brightness));
         mDoNotDisturb = new DoNotDisturbController(context,
                 (CompoundButton)findViewById(R.id.do_not_disturb_checkbox));
-        findViewById(R.id.settings).setOnClickListener(this);
-    }
 
         if(mToggleContainer == null)
            mToggleContainer = BUTTONS_DEFAULT;
@@ -181,19 +185,15 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mAirplane.release();
+        if(mAirplane != null)
+            mAirplane.release();
+        if(mGps != null)
+            mGps.release();
+        if(mSound != null)
+            mSound.release();
+        if(mRotate != null)
+            mRotate.release();
         mDoNotDisturb.release();
-        mRotate.release();
-    }
-
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.network:
-                onClickNetwork();
-                break;
-            case R.id.settings:
-                onClickSettings();
-                break;
     }
 
     private void clearToggleControllers() {
@@ -274,15 +274,50 @@ public class SettingsView extends LinearLayout implements View.OnClickListener {
         }
     }
 
-    private StatusBarManager getStatusBarManager() {
-        return (StatusBarManager)getContext().getSystemService(Context.STATUS_BAR_SERVICE);
-    }
-
     // Network
     // ----------------------------
     private void onClickNetwork() {
         getContext().startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    /*
+     * OnClickListener for custom toggles
+     */
+    private void onClickToggle(int id) {
+        switch(id){
+                case WIFI_ID:
+                getContext().startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+                case BLUETOOTH_ID:
+                getContext().startActivity(new Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+                case GPS_ID:
+                getContext().startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+                case FLASHLIGHT_ID:
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setClassName("net.cactii.flash2", "net.cactii.flash2.MainActivity");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getContext().startActivity(intent);
+                break;
+                case MOBILE_DATA_ID:
+                getContext().startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+                case NETWORK_MODE_ID:
+                getContext().startActivity(new Intent(Settings.ACTION_DATA_ROAMING_SETTINGS)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+                case SOUND_ID:
+                getContext().startActivity(new Intent(Settings.ACTION_SOUND_SETTINGS)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                break;
+        }
+
         getStatusBarManager().collapse();
     }
 
