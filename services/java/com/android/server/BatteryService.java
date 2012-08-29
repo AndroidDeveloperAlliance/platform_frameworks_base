@@ -125,6 +125,11 @@ class BatteryService extends Binder {
 
     private boolean mSentLowBatteryBroadcast = false;
 
+    private boolean mHasDockBattery;
+    private int mDockBatteryStatus;
+    private int mDockBatteryLevel;
+    private String mDockBatteryPresent;
+
     public BatteryService(Context context, LightsService lights) {
         mContext = context;
         mLed = new Led(context, lights);
@@ -136,6 +141,9 @@ class BatteryService extends Binder {
                 com.android.internal.R.integer.config_lowBatteryWarningLevel);
         mLowBatteryCloseWarningLevel = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_lowBatteryCloseWarningLevel);
+
+        mHasDockBattery = mContext.getResources().getBoolean(
+                com.android.internal.R.bool.config_hasDockBattery);
 
         mPowerSupplyObserver.startObserving("SUBSYSTEM=power_supply");
 
@@ -389,6 +397,12 @@ class BatteryService extends Binder {
         intent.putExtra(BatteryManager.EXTRA_TEMPERATURE, mBatteryTemperature);
         intent.putExtra(BatteryManager.EXTRA_TECHNOLOGY, mBatteryTechnology);
         intent.putExtra(BatteryManager.EXTRA_INVALID_CHARGER, mInvalidCharger);
+
+        if (mHasDockBattery){
+            intent.putExtra(BatteryManager.EXTRA_DOCK_STATUS, mDockBatteryStatus);
+            intent.putExtra(BatteryManager.EXTRA_DOCK_LEVEL, mDockBatteryLevel);
+            intent.putExtra(BatteryManager.EXTRA_DOCK_AC_ONLINE, false);
+        }
 
         if (false) {
             Slog.d(TAG, "level:" + mBatteryLevel +

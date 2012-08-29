@@ -265,6 +265,9 @@
   <java-symbol type="bool" name="config_sendAudioBecomingNoisy" />
   <java-symbol type="bool" name="config_enableScreenshotChord" />
   <java-symbol type="bool" name="config_bluetooth_default_profiles" />
+  
+  <java-symbol type="bool" name="config_umtsEverestRadio" />
+  <java-symbol type="bool" name="config_hasDockBattery" />
 
   <java-symbol type="integer" name="config_cursorWindowSize" />
   <java-symbol type="integer" name="config_longPressOnPowerBehavior" />

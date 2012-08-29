@@ -895,4 +895,10 @@
 
     <!-- If true, adds support for no delay A2DP in Samsung devices -->
     <bool name="config_noDelayInATwoDP">false</bool>
+    
+    <!-- Umts Everest RIL hacks -->
+    <bool name="config_umtsEverestRadio">false</bool>
+
+    <!-- Dock battery compatibility disabled by default -->
+    <bool name="config_hasDockBattery">false</bool>
 </resources>
