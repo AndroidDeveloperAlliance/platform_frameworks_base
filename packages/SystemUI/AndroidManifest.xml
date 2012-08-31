@@ -54,6 +54,7 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:persistent="true"
@@ -182,6 +183,10 @@
                 <category android:name="com.android.internal.category.PLATLOGO" />
 <!--            <category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.android.systemui.statusbar.powerwidget.Torch">
         </activity>
     </application>
 </manifest>
