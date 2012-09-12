@@ -2777,12 +2777,6 @@ public final class Settings {
         public static final String EXPANDED_FLASH_MODE = "expanded_flash_mode";
 
         /**
-         * Torch state (flashlight)
-         * @hide
-         */
-        public static final String TORCH_STATE = "torch_state";
-
-        /**
          * @hide
          */
         public static final String NAVIGATION_BAR_SHOW = "navigation_bar_show" ;
